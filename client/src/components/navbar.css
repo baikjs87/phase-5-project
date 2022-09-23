@@ -1,0 +1,19 @@
+.header{
+    position: relative;
+    display: flex;
+    background-color: rgb(189, 189, 189);
+    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav_buttons{
+    float: right;
+}
+
+#signup{
+    background-color: rgb(83, 83, 83);
+    padding: 5px 10px 8px 10px;
+    margin-left: 24px;
+    color: white;
+}
