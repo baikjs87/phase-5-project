@@ -6,7 +6,7 @@ import NavBar from "./NavBar";
 import Home from "./Home";
 import Post from "./Post"
 import Favorites from "./Favorites";
-import "./app.css"
+import "./styles/app.css"
 
 function App() {
   const [user, setUser] = useState(null);
