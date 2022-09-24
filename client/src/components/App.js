@@ -26,14 +26,14 @@ function App() {
       <main class="body_wrapper">
         {user ? (
           <Switch>
-            <Route path="/">
-              <Home user={user}/>
-            </Route>
             <Route path="/post">
               <Post user={user}/>
             </Route>
             <Route path="/favorites">
               <Favorites user={user}/>
+            </Route>
+            <Route path="/">
+              <Home user={user}/>
             </Route>
           </Switch>
         ) : (
