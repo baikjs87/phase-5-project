@@ -4,6 +4,9 @@ import SignUp from "./SignUp";
 import Login from "./Login";
 import NavBar from "./NavBar";
 import Home from "./Home";
+import Post from "./Post"
+import Favorites from "./Favorites";
+import "./app.css"
 
 function App() {
   const [user, setUser] = useState(null);
@@ -18,13 +21,19 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div>
       <NavBar user={user} setUser={setUser} />
-      <main>
+      <main class="body_wrapper">
         {user ? (
           <Switch>
             <Route path="/">
               <Home user={user}/>
+            </Route>
+            <Route path="/post">
+              <Post user={user}/>
+            </Route>
+            <Route path="/favorites">
+              <Favorites user={user}/>
             </Route>
           </Switch>
         ) : (
@@ -41,7 +50,7 @@ function App() {
           </Switch>
         )}
       </main>
-    </>
+    </div>
   );
 }
 

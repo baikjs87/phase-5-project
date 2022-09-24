@@ -18,8 +18,11 @@ function NavBar({ user, setUser }) {
       </div>
       <div class="nav_buttons">
         {user ? (
-          // <Link to="/post" id="post">Post</Link>
-          <button onClick={handleLogoutClick}>Logout</button>
+          <div>
+            <Link to="/post" id="post" class="buttons_after_login">Post</Link>
+            <Link to="/favorites" id="favorites" class="buttons_after_login">My Favorites</Link>
+            <button onClick={handleLogoutClick} class="buttons_after_login">Logout</button>
+          </div>
         ) : (
           <>
             <Link to="/login" id="login">Login</Link>

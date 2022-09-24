@@ -1,13 +1,15 @@
-import {Redirect} from 'react-router-dom';
+import Reviews from "./Reviews";
 
 function Home({ user }) {
-  // return (
-  // <h1>Welcome!</h1>
-  // )
   if (user) {
-    return <h1>Welcome, {user.username}!</h1>;
+    return (
+      <>
+        <h3>Welcome, {user.username}!</h3>
+        <Reviews />
+      </>
+    )
   } else {
-    return <h1>You need to Login or Sign Up to continue</h1>
+    return <h1>Please Login or Sign Up to continue</h1>
   }
 }
 
