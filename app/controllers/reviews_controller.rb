@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
 
-    def index
+    def inde
         render json: Review.all, status: :ok
     end
 

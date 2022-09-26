@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/me', to: 'users#show'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  # resources :reviews, only: [:index, :show, :create, :update, :destroy]
+  resources :reviews, only: [:index, :show, :update, :destroy]
   post '/post', to: 'reviews#create'
+  get '/users', to: 'users#index'
 end

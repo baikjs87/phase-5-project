@@ -1,6 +1,10 @@
-function Reviews() {
+function Reviews({ reviews }) {
     return(
-        <div>reviews</div>
+        <div>
+            {reviews.map((review) => {
+                console.log(review)
+            })}
+        </div>
     )
 }
 

@@ -18,10 +18,10 @@
     align-items: center;
 }
 
-.brand-price {
+.brand-category {
     display: flex;
 }
 
-.price-block {
+.category {
     margin-left: 5vw;
 }

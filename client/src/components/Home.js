@@ -1,11 +1,12 @@
 import Reviews from "./Reviews";
+import './styles/home.css'
 
-function Home({ user }) {
+function Home({ user, reviews }) {
   if (user) {
     return (
       <>
-        <h3>Welcome, {user.username}!</h3>
-        <Reviews />
+        <h6 className="welcome">Welcome, {user.username}!</h6>
+        <Reviews reviews={reviews} />
       </>
     )
   } else {

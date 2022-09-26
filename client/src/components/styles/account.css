@@ -1,0 +1,11 @@
+.wrapper {
+    display: flex;
+}
+
+.logout {
+    position: relative;
+    background-color: rgb(206, 65, 0);
+    color: white;
+    justify-content: space-between;
+    align-items: right;
+}
