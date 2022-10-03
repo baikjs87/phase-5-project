@@ -5,7 +5,7 @@ class CreateReviews < ActiveRecord::Migration[6.1]
       t.text :description
       t.float :price
       t.integer :rating
-      t.boolean :recommendation
+      t.string :recommend
       t.integer :user_id
       t.integer :category_id
       t.integer :brand_id

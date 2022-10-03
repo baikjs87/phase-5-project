@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2022_09_22_203740) do
     t.text "description"
     t.float "price"
     t.integer "rating"
-    t.boolean "recommendation"
+    t.string "recommend"
     t.integer "user_id"
     t.integer "category_id"
     t.integer "brand_id"

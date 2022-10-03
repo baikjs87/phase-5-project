@@ -23,7 +23,7 @@ function App() {
         r.json().then(data => setErrors(data.error))
       }
     })
-  })
+  },[])
 
   useEffect(() => {
     // auto-login
