@@ -1,7 +1,7 @@
 import React, { useState} from 'react'
 import './styles/post.css'
 
-function Post({ addReview }) {
+function Post({ addReview, user }) {
     const [formData, setFormData] = useState({
         title:'',
         brand_id:'',
@@ -10,75 +10,74 @@ function Post({ addReview }) {
         rating:'',
         recommend:'',
         description:'',
+        user_id: user.id,
+        brand:'',
+        category:''
       })
-    const [newBrand, setNewBrand] = useState({})
+    // const [newBrand, setNewBrand] = useState({})
+    // const [newCategory, setNewCategory] = useState('')
     const [errors, setErrors] = useState([])
     
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData({ ...formData, [name]: value })
     }
+
     const handleChangeBrand = (e) => {
-        const brand = e.target.value
-        setNewBrand({'name': brand.toUpperCase()})
+        const brand = e.target.value.toUpperCase()
+        setFormData({ ...formData, 'brand': brand })
     }
-    console.log(formData)
-    console.log("newBrand: ", newBrand)
+
+    const handleChangeCategory = (e) => {
+        const category = e.target.value.toUpperCase()
+        setFormData({ ...formData, 'category': category })
+    }
+
+    console.log('formData: ', formData)
+    // console.log("newBrand: ", newBrand)
+    // console.log("newCategory: ", newCategory)
     
     function onSubmit(e){
         e.preventDefault()
-        
-        fetch('/brands',{
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body:JSON.stringify(newBrand)
-        })
-        .then(r => {
-            if(r.ok){
-            r.json().then((newBrand) => {
-                // setFormData({ ...formData, 'brand_id': newBrand.id })
-                setNewBrand(newBrand)
-            })
-            }
-        })
 
-        fetch('/posts',{
+        fetch('/reviews',{
             method:'POST',
             headers: {'Content-Type': 'application/json'},
             body:JSON.stringify(formData)
         })
         .then(r => {
             if(r.ok){
-            r.json().then((newReview) => {
-                setFormData({ ...formData, 'brand_id': newBrand.id })
-                console.log(newReview)
-            })
+                r.json().then((newReview) => {
+                    fetch('/brands',{
+                        method:'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify({'brand': formData.brand}) 
+                    })
+                    .then(r => {
+                        if(r.ok){
+                            r.json().then((newBrand) => {
+                                setFormData({ ...formData, 'brand_id': newBrand.id })
+                                fetch('/categories',{
+                                    method:'POST',
+                                    headers: {'Content-Type': 'application/json'},
+                                    body:JSON.stringify({'category': formData.category})
+                                })
+                                .then(r => {
+                                    r.json().then((newCategory) => {
+                                        setFormData({ ...formData, 'category_id': newCategory.id, 'brand_id': newBrand.id })
+                                    })
+                                })
+                            })
+                        } else {
+                            r.json().then(data => setErrors(Object.entries(data.errors).map(e => `${e[0]} ${e[1]}`)))
+                        }
+                    })
+                })
             } else {
-            //Display errors
-            // r.json().then(data => setErrors(Object.entries(data.errors).map(e => `${e[0]} ${e[1]}`)))
+                r.json().then(data => setErrors(Object.entries(data.errors).map(e => `${e[0]} ${e[1]}`)))
             }
         })
-
     }
-
-    // const addBrand = (e) => {
-    // e.preventDefault()
-    // console.log(formData.brand)
-    // fetch('/brands',{
-    //     method:'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body:JSON.stringify({brand: formData.brand.toUpperCase()})
-    // })
-    // .then(r => {
-    //     if(r.ok){
-    //     r.json().then((newBrand) => {
-    //         setFormData({ ...formData, 'brand_id': newBrand.id })
-    //         console.log(formData)
-    //     })
-    //     }
-    // }) 
-    // }
-
 
     return(
         <div className="post_wrapper">
@@ -92,12 +91,11 @@ function Post({ addReview }) {
                     <div className="col-sm-5 label">
                         <label className="form-label"> Brand</label>
                         <input type='text' name='brand' onChange={handleChangeBrand} className="form-control" />
-                        {/* <button onClick={(e) => addBrand(e)}>add</button> */}
                     </div>
 
                     <div className="col-sm-5 label category">
                         <label className="form-label"> Category</label>
-                        <input type='text' name='category' value={formData.category} onChange={handleChange} className="form-control" />
+                        <input type='text' name='category' onChange={handleChangeCategory} className="form-control" />
                     </div>
                 </div>
             
@@ -151,7 +149,7 @@ function Post({ addReview }) {
                 </div>         
 
                 <label className="label ">Description</label>
-                <textarea type='text' rows='20' cols='80' name='description' value={formData.description} onChange={handleChange} className="form-control" />
+                <textarea type='text' rows='0' cols='80' name='description' value={formData.description} onChange={handleChange} className="form-control" />
             
                 <input type='submit' value='Post Review' className="submit_button" />
             </form>

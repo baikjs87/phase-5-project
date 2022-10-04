@@ -12,15 +12,15 @@ import "./styles/app.css"
 function App() {
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([])
-  const [errors, setErrors] = useState('')
+  // const [errors, setErrors] = useState('')
 
   useEffect(() => {
     fetch('/reviews')
     .then(r => {
       if(r.ok){
-        r.json().then(setReviews)
+        r.json().then((reviews)=>setReviews(reviews))
       }else{
-        r.json().then(data => setErrors(data.error))
+        // r.json().then(data => setErrors(data.error))
       }
     })
   },[])

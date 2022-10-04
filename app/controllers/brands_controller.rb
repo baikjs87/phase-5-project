@@ -1,7 +1,7 @@
 class BrandsController < ApplicationController
 
     def create
-        render json: Brand.find_or_create_by(name: brand_params[:name])
+        render json: Brand.find_or_create_by(name: brand_params[:brand])
     end
 
     def index
@@ -14,4 +14,4 @@ class BrandsController < ApplicationController
         params.permit(:name, :brand)
     end
 end
- 
+  

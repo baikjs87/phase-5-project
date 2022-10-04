@@ -22,7 +22,18 @@ class UsersController < ApplicationController
         end
     end
 
+    def create_review
+        user = User.find_by(id: params[:user_id])
+        byebug
+        review = user.reviews.create(params[:review_data])
+        render json: review
+    end
+
     private
+
+    def review_params
+        params.require(:user).permit(:recommend, :title, :description, :price, :rating, :recommendation, :brand_id, :category_id, :user_id, :brand, :category, :review_data)
+    end
 
     def user_params
         params.permit(:username, :password, :password_confirmation)
