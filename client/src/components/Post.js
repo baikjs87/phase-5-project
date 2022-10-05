@@ -1,4 +1,5 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
+import { useHistory } from 'react-router-dom'
 import './styles/post.css'
 
 function Post({ addReview, user }) {
@@ -14,9 +15,9 @@ function Post({ addReview, user }) {
         brand:'',
         category:''
       })
-    // const [newBrand, setNewBrand] = useState({})
-    // const [newCategory, setNewCategory] = useState('')
     const [errors, setErrors] = useState([])
+    const [newCategory, setNewCategory] = useState([])
+    const history = useHistory();
     
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -34,8 +35,6 @@ function Post({ addReview, user }) {
     }
 
     console.log('formData: ', formData)
-    // console.log("newBrand: ", newBrand)
-    // console.log("newCategory: ", newCategory)
     
     function onSubmit(e){
         e.preventDefault()
@@ -65,7 +64,9 @@ function Post({ addReview, user }) {
                                 .then(r => {
                                     r.json().then((newCategory) => {
                                         setFormData({ ...formData, 'category_id': newCategory.id, 'brand_id': newBrand.id })
+                                        addReview(newReview)
                                     })
+                                    setTimeout(() => history.push('/'), 2000)
                                 })
                             })
                         } else {
@@ -82,7 +83,7 @@ function Post({ addReview, user }) {
     return(
         <div className="post_wrapper">
             <h3 className="pagename">Post Reviews</h3>
-            {errors?errors.map(e => <div>{e}</div>):null}
+            {errors?errors.map(e => <div style={{color:'red'}}>{e}</div>):null}
             <form onSubmit={onSubmit}>
                 <label className="form-label">Title </label>
                 <input type='text' name='title' value={formData.title} onChange={handleChange} className="form-control" />

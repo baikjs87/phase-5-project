@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_22_203740) do
+ActiveRecord::Schema.define(version: 2022_10_04_221314) do
 
   create_table "brands", force: :cascade do |t|
     t.string "name"
@@ -25,12 +25,17 @@ ActiveRecord::Schema.define(version: 2022_09_22_203740) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string "title"
     t.text "body"
+    t.text "formatted_body"
+    t.string "commentable_type"
+    t.integer "commentable_id"
     t.integer "user_id"
-    t.integer "review_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentable_id", "commentable_type", "user_id"], name: "index_on_commentable_and_user"
+    t.index ["commentable_id", "commentable_type"], name: "index_on_commentable"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -38,6 +43,14 @@ ActiveRecord::Schema.define(version: 2022_09_22_203740) do
     t.text "description"
     t.integer "review_id"
     t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "url"
+    t.string "ik_id"
+    t.string "file_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

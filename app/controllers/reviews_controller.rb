@@ -5,7 +5,6 @@ class ReviewsController < ApplicationController
     end
 
     def create
-        # byebug
         render json: Review.create(review_params), status: :created
     end
 

@@ -7,6 +7,7 @@ import Home from "./Home";
 import Post from "./Post"
 import Favorites from "./Favorites";
 import Account from "./Account";
+import Details from "./Details";
 import "./styles/app.css"
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
             </Route>
             <Route path="/favorites">
               <Favorites user={user}/>
+            </Route>
+            <Route path="/details/:id">
+              <Details user={user} reviews={reviews} />
             </Route>
             <Route path="/account">
               <Account user={user} setUser={setUser} />

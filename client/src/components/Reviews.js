@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Reviews({ reviews }) {
     return(
         <div>
@@ -5,7 +7,9 @@ function Reviews({ reviews }) {
                 <div className="card" key={review.id}>
                     {/* <img src="..." class="card-img-top" alt="..."> */}
                     <div className="card-body">
-                        <p className="card-text">{review.title}</p>
+                        <Link to={{pathname:`/details/${review.id}`, state:{review}}}>
+                            <p className="card-text">{review.title}</p>
+                        </Link>
                     </div>
                 </div>
             ))}

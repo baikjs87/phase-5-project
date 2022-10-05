@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   get '/users', to: 'users#index'
   # post '/brand', to: 'brands#create'
   post '/create-review', to: 'users#create_review'
+  resources :reviews do
+    resources :comments, only: [:new, :create, :destroy]
+  end
 end
