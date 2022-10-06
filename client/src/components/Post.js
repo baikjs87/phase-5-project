@@ -65,8 +65,8 @@ function Post({ addReview, user }) {
                                     r.json().then((newCategory) => {
                                         setFormData({ ...formData, 'category_id': newCategory.id, 'brand_id': newBrand.id })
                                         addReview(newReview)
+                                        // setTimeout(() => history.push('/'), 2000)
                                     })
-                                    setTimeout(() => history.push('/'), 2000)
                                 })
                             })
                         } else {

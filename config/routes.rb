@@ -7,9 +7,4 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :reviews, only: [:index, :show, :update, :destroy, :create]
   get '/users', to: 'users#index'
-  # post '/brand', to: 'brands#create'
-  post '/create-review', to: 'users#create_review'
-  resources :reviews do
-    resources :comments, only: [:new, :create, :destroy]
-  end
 end

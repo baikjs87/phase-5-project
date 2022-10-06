@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     end
 
     def create
-        user = User.create(user_params)
+        user = User.create!(user_params)
         session[:user_id] = user.id
         if user.valid?
             render json: user, status: :created 
@@ -20,13 +20,6 @@ class UsersController < ApplicationController
         if user
             render json: user
         end
-    end
-
-    def create_review
-        user = User.find_by(id: params[:user_id])
-        byebug
-        review = user.reviews.create(params[:review_data])
-        render json: review
     end
 
     private
