@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     end
 
     def create
-        user = User.create!(user_params)
+        user = User.create(user_params)
         session[:user_id] = user.id
         if user.valid?
             render json: user, status: :created 
@@ -20,6 +20,11 @@ class UsersController < ApplicationController
         if user
             render json: user
         end
+    end
+
+    def find
+        user = User.find(params[:id])
+        render json: user
     end
 
     private

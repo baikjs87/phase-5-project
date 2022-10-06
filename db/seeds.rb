@@ -58,4 +58,51 @@ review4 = Review.create({
     'user_id': 4
 })
 
+puts "Seeding Comments..."
+comment1 = Comment.create({
+    'body': 'rtherythertgetrgwrethgsrtbsrtbsdrv',
+    'user_id': 1,
+    "review_id": 1
+})
+comment2 = Comment.create({
+    'body': 'esrvservsertbvsertbsrtb',
+    'user_id': 2,
+    "review_id": 1
+})
+comment3 = Comment.create({
+    'body': 'sertvbsertvbsertbvsertb',
+    'user_id': 3,
+    "review_id": 1
+})
+comment4 = Comment.create({
+    'body': 'sfgbsrtbndryndfghn',
+    'user_id': 4,
+    "review_id": 2
+})
+comment5 = Comment.create({
+    'body': 'dfgynsrtmjfgjuhmneyn',
+    'user_id': 1,
+    "review_id": 2
+})
+comment6 = Comment.create({
+    'body': 'srftnbsrtnsdfygnsrtbsrtgbrst',
+    'user_id': 2,
+    "review_id": 3
+})
+comment7 = Comment.create({
+    'body': 'stgbsdrtbnsrb',
+    'user_id': 3,
+    "review_id": 3
+})
+comment8 = Comment.create({
+    'body': 'srtbsdftndtumy,m',
+    'user_id': 4,
+    "review_id": 4
+})
+comment9 = Comment.create({
+    'body': 'o.gi,duyjsr5thasertg',
+    'user_id': 1,
+    "review_id": 4
+})
+
 puts "✅ Done seeding!"

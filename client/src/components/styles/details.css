@@ -1,0 +1,29 @@
+#wrapper {
+    align-self: center;
+    margin: 40px auto;
+    max-width: 1200px;
+}
+
+#review-wrapper {
+    margin-top: 40px;
+}
+
+#form {
+    margin-top: 40px;
+}
+
+#comments-wrapper {
+    margin-top: 20px;
+}
+
+#comments {
+    margin-top: 20px;
+}
+/* 
+#comments-body {
+    margin-top: 20px;
+} */
+
+#comments-user {
+    margin-left: 20px;
+}

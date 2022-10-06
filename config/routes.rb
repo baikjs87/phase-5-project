@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   resources :reviews, only: [:index, :show, :update, :destroy, :create]
-  get '/users', to: 'users#index'
+  resources :users, only: [:index, :find]
+  resources :comments
 end
