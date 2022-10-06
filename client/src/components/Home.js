@@ -6,7 +6,7 @@ function Home({ user, reviews }) {
     return (
       <>
         <h6 className="welcome">Welcome, {user.username}!</h6>
-        <Reviews reviews={reviews} />
+        <Reviews reviews={reviews} user={user} />
       </>
     )
   } else {

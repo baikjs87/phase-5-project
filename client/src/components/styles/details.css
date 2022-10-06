@@ -9,7 +9,7 @@
 }
 
 #form {
-    margin-top: 40px;
+    margin: 40px auto 60px;
 }
 
 #comments-wrapper {
@@ -19,11 +19,9 @@
 #comments {
     margin-top: 20px;
 }
-/* 
-#comments-body {
-    margin-top: 20px;
-} */
 
-#comments-user {
-    margin-left: 20px;
+.line {
+    margin: 40px auto;
+    max-width: 1200px;
+    border-bottom: 1px solid rgb(199, 199, 199);
 }
