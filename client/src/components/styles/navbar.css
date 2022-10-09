@@ -1,10 +1,16 @@
 .header{
     position: relative;
     display: flex;
-    background-color: rgb(189, 189, 189);
-    padding: 20px;
+    background-color: #dbdcdbe0;
+    padding: 30px 4em;
     justify-content: space-between;
     align-items: center;
+}
+
+.title {
+    color: rgb(0, 0, 0);
+    font-size: x-large;
+    text-decoration: none;
 }
 
 .nav_buttons{
@@ -12,12 +18,20 @@
 }
 
 #signup{
-    background-color: rgb(83, 83, 83);
-    padding: 5px 10px 8px 10px;
-    margin-left: 24px;
+    background-color: rgb(53, 53, 53);
+    padding: 15px 22px 18px 20px;
+    margin-left: 40px;
     color: white;
 }
 
 .buttons_after_login {
-    margin-left: 16px;
+    margin-left: 40px;
+	color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+.buttons_before_login {
+    margin-left: 40px;
+	color: rgb(0, 0, 0);
+    text-decoration: none;
 }

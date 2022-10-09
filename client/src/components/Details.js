@@ -49,7 +49,7 @@ function Details({ user }) {
     
     
     return(
-        <div className="" id="wrapper">
+        <div className="page-wrapper" id="wrapper">
             <div className="card-body">
                 <h1>{review.title}</h1>
                 <div>
@@ -67,9 +67,9 @@ function Details({ user }) {
                 </div>
                 <div className="line"></div>
                 <form id="form" onSubmit={handleSubmit}>
+                    {errors?errors.map(e => <div style={{color:'red'}}>{e}</div>):null}
                     <div className="mb-3">
                         <div className="mb-3">
-                            {/* <label for="commentArea" className="form-label">Comments</label> */}
                             <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Add a comment..." value={commentData.body} name="body" onChange={handleChange}></textarea>
                         </div>
                     </div>

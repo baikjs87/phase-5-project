@@ -8,6 +8,13 @@ class ReviewsController < ApplicationController
         render json: Review.create(review_params), status: :created
     end
 
+    def show
+        reviews = Review.where(:user => params[:id])
+        if reviews
+            render json: reviews
+        end
+    end
+
     private
     
     def review_params

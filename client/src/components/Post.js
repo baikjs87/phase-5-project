@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import './styles/post.css'
 
@@ -16,7 +16,7 @@ function Post({ addReview, user }) {
         category:''
       })
     const [errors, setErrors] = useState([])
-    const [newCategory, setNewCategory] = useState([])
+    // const [newCategory, setNewCategory] = useState([])
     const history = useHistory();
     
     const handleChange = (e) => {

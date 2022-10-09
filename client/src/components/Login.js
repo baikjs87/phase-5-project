@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './styles/login.css'
 
 function Login({ setUser }) {
   const [username, setUsername] = useState("");
@@ -23,31 +24,33 @@ function Login({ setUser }) {
   }
 
   return (
-    <div>
+    <div className="wrapper">
       <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+        <h1 className="heading">Login</h1>
         {errors?<div style={{color:'red'}}>{errors}</div>:null}
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            autoComplete="off"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+        <div className="form">
+          <div className="input">
+            <label htmlFor="username" className="label">Username</label>
+            <input
+              type="text"
+              id="username"
+              autoComplete="off"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="input">
+            <label htmlFor="password" className="label">Password</label>
+            <input
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
+        <button type="submit" className="button">Login</button>
       </form>
     </div>
   );

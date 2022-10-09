@@ -9,6 +9,19 @@ class CommentsController < ApplicationController
         render json: comment, status: :created
     end
 
+    def show
+        comments = Comment.where(:user => params[:id])
+        if comments
+            render json: comments
+        end
+    end
+
+    def update
+        comment = Comment.where(:user => params[:id])
+        comment.update(comment_params)
+        render json: comment
+    end
+
     private
 
     def comment_params

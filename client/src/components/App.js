@@ -42,7 +42,7 @@ function App() {
   return (
     <div>
       <NavBar user={user} setUser={setUser} />
-      <main className="body_wrapper">
+      <main>
         {user ? (
           <Switch>
             <Route path="/post">
