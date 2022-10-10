@@ -1,10 +1,14 @@
 .header{
-    position: relative;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
     display: flex;
-    background-color: #dbdcdbe0;
+    background-color: #dbdcdb;
     padding: 30px 4em;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    z-index: 1000;
 }
 
 .title {

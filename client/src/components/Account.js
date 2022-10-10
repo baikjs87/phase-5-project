@@ -8,41 +8,91 @@ function Account({ user, setUser }) {
     const [commentsShown, setCommentsShown] = useState(false);
     const [myComments, setMyComments] = useState([])
     const [myReviews, setMyReviews] = useState([])
-    // console.log("comments:", myComments)
+    const [errors, setErrors] = useState([])
+
+    console.log("comments:", myComments)
     // console.log("reviews: ", myReviews)
 
 
     useEffect(() => {
-        fetch(`/reviews/${user.id}`)
-        .then((r) => {
-              r.json().then((reviews) => {
-                console.log(reviews)
-                setMyReviews(reviews)});
-          });
+        fetch('/reviews')
+        .then(r => {
+          if(r.ok){
+            r.json().then((reviews) => {
+              const reviewsList = []
+              reviews.map((review) => {
+                if(review.user.id === user.id){
+                  reviewsList.push(review)
+                }
+              })
+              setMyReviews(reviewsList)
+            });
+          } else {
+            r.json().then(json => setErrors(json.error))
+          }
+        });
 
-        fetch(`/comments/${user.id}`)
+        fetch('/comments')
         .then((r) => {
-              r.json().then((comments) => setMyComments(comments));
+              r.json().then((comments) => {
+                const commentsList = []
+                comments.map((comment) => {
+                  if(comment.user.id === user.id){
+                    commentsList.push(comment)
+                  }
+                })
+                setMyComments(commentsList)
+              });
           });
-    },[user.id])
+    },[])
 
     function handleLogoutClick() {
         fetch("/logout", { method: "DELETE" }).then((r) => {
           if (r.ok) {
             setUser(null);
+          } else {
+            r.json().then(json => setErrors(json.error))
           }
         });
       }
 
-    const handleClickReview = event => {
+    const handleClickReviews = () => {
       setReviewsShown(true);
       setCommentsShown(false);
     };
 
-    const handleClickComments = event => {
+    const handleClickComments = () => {
       setCommentsShown(true);
       setReviewsShown(false);
     };
+
+    function handleUpdateComment(updatedComment){
+      setMyComments((comments) => 
+        comments.map((comment) => {
+          return comment.id === updatedComment.id ? updatedComment : comment
+        })
+      ) 
+    }
+    
+    function handleDeleteComment(deletedComment){
+      setMyComments((comments) => 
+        comments.filter((comment) => comment.id !== deletedComment.id)
+      )
+    }
+
+    function handleUpdateReview(updatedReview){
+      setMyReviews((reviews) =>
+        reviews.map((review) => {
+          return review.id === updatedReview.id ? updatedReview : review
+        })
+      )
+    }
+
+    function handleDeleteReview(deleteReview){
+      setMyReviews((reviews) =>
+        reviews.filter((review) => review.id !== deleteReview.id)
+      )
+    }
 
     return(
       <div className="account-wrapper">
@@ -50,22 +100,28 @@ function Account({ user, setUser }) {
           <div class="sidebar">
             <small class="text-muted pl-3">MY ACCOUNT</small>
             <ul className="list">
-              <li onClick={handleClickReview} className="links">My Reviews</li>
+              <li onClick={handleClickReviews} className="links">My Reviews</li>
               <li onClick={handleClickComments} className="links">My Comments</li>
               <li className="logout" onClick={handleLogoutClick}>Log Out</li>
             </ul>
           </div>
         </div>
         <div className="account-body">
-          <h3>Hello {user.username}</h3>
-          <div className="line"></div>
+          <h5>Hello {user.username}</h5>
         </div>
         <div className="account-subbody">
+        {errors?<div style={{color:'red'}}>{errors}</div>:null}
           {reviewsShown && (
-            <MyReviews myReviews={myReviews} />
+            <MyReviews user={user} 
+            myReviews={myReviews}
+            onUpdateReview={handleUpdateReview}
+            onDeleteReview={handleDeleteReview} />
           )}
           {commentsShown && (
-            <MyComments user={user} myComments={myComments} />
+            <MyComments user={user} 
+            myComments={myComments} 
+            onUpdateComment={handleUpdateComment} 
+            onDeleteComment={handleDeleteComment} />
           )}
         </div>
       </div>

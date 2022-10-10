@@ -10,22 +10,28 @@ class CommentsController < ApplicationController
     end
 
     def show
-        comments = Comment.where(:user => params[:id])
+        comments = Comment.find(params[:id])
         if comments
             render json: comments
         end
     end
 
     def update
-        comment = Comment.where(:user => params[:id])
+        comment = Comment.find(params[:id])
         comment.update(comment_params)
         render json: comment
+    end
+
+    def destroy
+        comment = Comment.find(params[:id])
+        comment.destroy
+        head :no_content
     end
 
     private
 
     def comment_params
-        params.permit(:body, :user_id, :review_id)
+        params.permit(:body, :user_id, :review_id, :id)
     end
 
 end

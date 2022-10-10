@@ -36,11 +36,12 @@ function App() {
   }, []);
 
   function addReview(review){
-    setReviews(current => [...current, review])
+    console.log(review)
+    setReviews([...reviews, review])
   }
 
   return (
-    <div>
+    <div className="app_wrapper">
       <NavBar user={user} setUser={setUser} />
       <main>
         {user ? (

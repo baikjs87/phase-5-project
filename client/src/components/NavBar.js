@@ -13,7 +13,7 @@ function NavBar({ user }) {
         {user ? (
           <div className="links">
             <Link to="/post" id="post" className="buttons_after_login">Post</Link>
-            <Link to="/favorites" id="favorites" className="buttons_after_login">Favorites</Link>
+            {/* <Link to="/favorites" id="favorites" className="buttons_after_login">Favorites</Link> */}
             <Link to="/account" id="account" className="buttons_after_login">Account</Link>
           </div>
         ) : (

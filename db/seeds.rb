@@ -1,8 +1,8 @@
 puts "Seeding Users..."
-jason = User.create(username: 'jason', password_digest: 'test')
-user1 = User.create(username: 'user1', password_digest: 'test')
-user2 = User.create(username: 'user2', password_digest: 'test')
-user3 = User.create(username: 'user3', password_digest: 'test')
+jason = User.create(username: 'jason', password: 'test', password_confirmation: 'test')
+user1 = User.create(username: 'user1', password: 'test', password_confirmation: 'test')
+user2 = User.create(username: 'user2', password: 'test', password_confirmation: 'test')
+user3 = User.create(username: 'user3', password: 'test', password_confirmation: 'test')
 
 puts "Seeding Brands..."
 brand1 = Brand.create(name: 'NIKE')

@@ -1,35 +1,55 @@
 import { useState } from 'react'
 import './styles/myComments.css'
 
-function MyComments({ user, myComments }) {
+function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
     const [commentData, setCommentData] = useState({
+        id:'',
         body:'',
         user_id: user.id,
         review_id: ''
     })
-    const [startEditing, setStartEditting] = useState(false)
+    const [startEditing, setStartEditting] = useState({
+        active: false,
+        comment_id:''
+    })
+    const [errors, setErrors] = useState([])
+
+    // console.log(myComments)
     console.log(commentData)
+    // console.log(startEditing)
     
-    function handleEdit(e){
-        const review_id = e.target.dataset.id
-        if(review_id){
-            const id = parseInt(e.target.dataset.id)
-            setCommentData({ ...commentData, 'review_id': id })
-        }
-        setStartEditting(!startEditing)
+    function handleEdit(comment){
+        setCommentData({ ...commentData, 'review_id': comment.review.id , 'id': comment.id})
+        setStartEditting({
+            active: true,
+            comment_id: comment.id
+        })
     }
 
     function handleSubmit(e){
         e.preventDefault()
+        
         const { name, value } = e.target
         setCommentData({ ...commentData, [name]: value })
-        fetch(`/comments/${user.id}`, {
+        
+        fetch(`/comments/${commentData.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json',},
             body: JSON.stringify(commentData),
         })
         .then((r)=> r.json())
-        .then((d) => console.log(d))
+        .then(onUpdateComment)
+
+        setCommentData({
+            id:'',
+            body:'',
+            user_id: user.id,
+            review_id: ''
+        })
+        setStartEditting({
+            active: false,
+            review_id:''
+        })
     }
 
     const handleChange = (e) => {
@@ -46,34 +66,66 @@ function MyComments({ user, myComments }) {
         setStartEditting(!startEditing)
     }
 
+    function onClickDeleteComment(comment) {
+        fetch(`/comments/${comment.id}`, {
+          method: "DELETE",
+        }).then((r) => {
+            if (r.ok) {
+            onDeleteComment(myComments);
+            } else {
+                r.json().then(json => setErrors(json.error))
+            }
+        });
+      }
+
     return(
         <div>
+            <div className="line"></div>
             <h2>My Comments</h2>
             <div className="comments-wrapper">
+            {errors?<div style={{color:'red'}}>{errors}</div>:null}
                 {myComments.map((comment) => (
                     <div className="card text-bg-light mb-3 comment-card" key={comment.id}>
                         <div className="card-header">{comment.review.title}</div>
                         {
-                            startEditing ? <form id="comment-form" onSubmit={handleSubmit}>
+                            startEditing.active && startEditing.comment_id === comment.id ? <form id="comment-form" onSubmit={handleSubmit}>
                                 <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Edit comment..." value={commentData.body} name="body" onChange={handleChange}></textarea>
-                        </form>
+                            </form>
                             : <div className="card-body">{comment.body}</div>
                         
                         }
                         <div className="card-footer bg-transparent">
                             {
-                                startEditing ? 
+                                startEditing.active && startEditing.comment_id === comment.id ? 
                                 <button type="button" name="submit" className="btn btn-primary btn-sm" onClick={handleSubmit}>Submit</button> 
-                                : <button type="button" name="edit" className="btn btn-primary btn-sm" onClick={handleEdit} data-id={comment.review.id}>Edit</button> 
+                                : <button type="button" name="edit" className="btn btn-secondary btn-sm" onClick={() => handleEdit(comment)} data-id={comment.review.id}>Edit</button> 
                             }
 
                             { 
-                                startEditing ?
+                                startEditing.active && startEditing.comment_id === comment.id ?
                                 <button type="button" className="btn btn-secondary btn-sm" onClick={handleCancel}>Cancel</button>
                                 :
-                                <button type="button" className="btn btn-secondary btn-sm">Delete Comment</button>
+                                <button type="button" className="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => onClickDeleteComment(comment)}>Delete Comment</button>
+                                
                             }
                         </div>
+                        {/* <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h1 className="modal-title fs-5" id="exampleModalLabel">Delete this comment?</h1>
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        {comment.body}
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button   button type="button" className="btn btn-danger" onClick={() => onClickDeleteComment(comment)}>Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> */}
                     </div>
                 ))}
             </div>
