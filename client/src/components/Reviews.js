@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import './styles/reviews.css'
 
 function Reviews({ reviews, user }) {
+
     return(
         <div>
             {reviews.map((review) => (

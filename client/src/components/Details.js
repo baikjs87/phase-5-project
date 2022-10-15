@@ -2,23 +2,21 @@ import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import './styles/details.css'
 
-function Details({ user }) {
+function Details({ user, reviews, addNewComment }) {
     const location = useLocation()
     const review = location.state.review
+    const review_id = location.state.review.id
     const [commentData, setCommentData] = useState({
         body:'',
         user_id: user.id,
         review_id: review.id
     })
-    const [thisReview, setThisReview] = useState({})
+    const [thisReview, setThisReview] = useState([])
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        setThisReview(review)
-    },[])
-    
-    // console.log(review)
-    // console.log('this: ',thisReview.brand)
+        reviews.map((review) => review.id === review_id ? setThisReview(review.comments) : null)
+    },[reviews, review_id])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -27,7 +25,6 @@ function Details({ user }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(commentData)
         
         fetch("/comments", {
             method: "POST",
@@ -38,7 +35,7 @@ function Details({ user }) {
         }).then((r) => {
             if (r.ok) {
                 r.json().then((comment) => {
-                    console.log(comment)
+                    addNewComment(comment)
                     setCommentData({ ...commentData, body:'' })
                 });
             } else {
@@ -76,7 +73,7 @@ function Details({ user }) {
                     <button type="submit" className="btn btn-primary">Post Comment</button>
                 </form>
                 <div id="comments">
-                    {review.comments.map((comment) => 
+                    {thisReview.map((comment) => 
                         <div className="card" id="comments-wrapper" key={comment.id}>
                             <div className="card-header">
                                 {comment.user.username}

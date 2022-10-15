@@ -19,6 +19,12 @@ require "action_view/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+if ['development', 'test'].include? ENV['RAILS_ENV']
+  Dotenv::Railtie.load
+end
+
+HOSTNAME = ENV['HOSTNAME']
+
 module Phase4PasswordProtectionLab
   class Application < Rails::Application
     # Adding cookies and session middleware

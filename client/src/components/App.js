@@ -13,7 +13,13 @@ import "./styles/app.css"
 function App() {
   const [user, setUser] = useState(null);
   const [reviews, setReviews] = useState([])
-  // const [errors, setErrors] = useState('')
+  const [errors, setErrors] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 1000)
+  }, [])
+  
 
   useEffect(() => {
     fetch('/reviews')
@@ -21,7 +27,7 @@ function App() {
       if(r.ok){
         r.json().then((reviews)=>setReviews(reviews))
       }else{
-        // r.json().then(data => setErrors(data.error))
+        r.json().then(data => setErrors(data.error))
       }
     })
   },[])
@@ -37,46 +43,61 @@ function App() {
 
   function addReview(review){
     console.log(review)
-    setReviews([...reviews, review])
+    setReviews((reviews) => [...reviews, review])
+  }
+
+  function handleNewComment(newComment){
+    reviews.map((review) => review.id === newComment.review.id ? review.comments.push(newComment) : null)
   }
 
   return (
-    <div className="app_wrapper">
-      <NavBar user={user} setUser={setUser} />
-      <main>
-        {user ? (
-          <Switch>
-            <Route path="/post">
-              <Post user={user} addReview={addReview} />
-            </Route>
-            <Route path="/favorites">
-              <Favorites user={user}/>
-            </Route>
-            <Route path="/details/:id">
-              <Details user={user} reviews={reviews} />
-            </Route>
-            <Route path="/account">
-              <Account user={user} setUser={setUser} />
-            </Route>
-            <Route path="/">
-              <Home user={user} reviews={reviews} />
-            </Route>
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/signup">
-              <SignUp setUser={setUser} />
-            </Route>
-            <Route path="/login">
-              <Login setUser={setUser} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        )}
-      </main>
-    </div>
+    <>
+    {loading === false ? (
+      <div className="app_wrapper">
+        <NavBar user={user} setUser={setUser} />
+        <main>
+        {errors?<div style={{color:'red'}}>{errors}</div>:null}
+          {user ? (
+            <Switch>
+              <Route path="/post">
+                <Post user={user} addReview={addReview} />
+              </Route>
+              <Route path="/favorites">
+                <Favorites user={user}/>
+              </Route>
+              <Route path="/details/:id">
+                <Details user={user} reviews={reviews} addNewComment={handleNewComment} />
+              </Route>
+              <Route path="/account">
+                <Account user={user} setUser={setUser} />
+              </Route>
+              <Route path="/">
+                <Home user={user} reviews={reviews} />
+              </Route>
+            </Switch>
+          ) : (
+            <Switch>
+              <Route path="/signup">
+                <SignUp setUser={setUser} />
+              </Route>
+              <Route path="/login">
+                <Login setUser={setUser} />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          )}
+        </main>
+      </div>
+      ) : (
+        <div className="d-flex justify-content-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

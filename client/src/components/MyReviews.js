@@ -65,7 +65,7 @@ function MyReviews({ myReviews, user, onUpdateReview, onDeleteReview }) {
           method: "DELETE",
         }).then((r) => {
             if (r.ok) {
-            onDeleteReview(myReviews);
+            onDeleteReview(review);
             } else {
                 r.json().then(json => setErrors(json.error))
             }
@@ -77,7 +77,8 @@ function MyReviews({ myReviews, user, onUpdateReview, onDeleteReview }) {
         <div>
             <div className="line"></div>
             <h2>My Reviews</h2>
-            <div className="reviews-wrapper">
+            <div className="comments-wrapper">
+            {errors?<div style={{color:'red'}}>{errors}</div>:null}
                 {myReviews.map((review) => (
                     <div className="card" key={review.id}>
                         <div>

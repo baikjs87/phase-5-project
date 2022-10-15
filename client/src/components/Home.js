@@ -2,6 +2,7 @@ import Reviews from "./Reviews";
 import './styles/home.css'
 
 function Home({ user, reviews }) {
+
   if (user) {
     return (
       <div className="main-wrapper">

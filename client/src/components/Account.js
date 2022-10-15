@@ -10,7 +10,7 @@ function Account({ user, setUser }) {
     const [myReviews, setMyReviews] = useState([])
     const [errors, setErrors] = useState([])
 
-    console.log("comments:", myComments)
+    // console.log("comments:", myComments)
     // console.log("reviews: ", myReviews)
 
 
@@ -24,6 +24,7 @@ function Account({ user, setUser }) {
                 if(review.user.id === user.id){
                   reviewsList.push(review)
                 }
+                return reviewsList
               })
               setMyReviews(reviewsList)
             });
@@ -40,11 +41,12 @@ function Account({ user, setUser }) {
                   if(comment.user.id === user.id){
                     commentsList.push(comment)
                   }
+                  return commentsList
                 })
                 setMyComments(commentsList)
               });
           });
-    },[])
+    },[user.id])
 
     function handleLogoutClick() {
         fetch("/logout", { method: "DELETE" }).then((r) => {
@@ -61,6 +63,20 @@ function Account({ user, setUser }) {
       setCommentsShown(false);
     };
 
+    function handleUpdateReview(updatedReview){
+      setMyReviews((reviews) =>
+        reviews.map((review) => {
+          return review.id === updatedReview.id ? updatedReview : review
+        })
+      )
+    }
+
+    function handleDeleteReview(deleteReview){
+      setMyReviews((reviews) =>
+        reviews.filter((review) => review.id !== deleteReview.id)
+      )
+    }
+    
     const handleClickComments = () => {
       setCommentsShown(true);
       setReviewsShown(false);
@@ -77,20 +93,6 @@ function Account({ user, setUser }) {
     function handleDeleteComment(deletedComment){
       setMyComments((comments) => 
         comments.filter((comment) => comment.id !== deletedComment.id)
-      )
-    }
-
-    function handleUpdateReview(updatedReview){
-      setMyReviews((reviews) =>
-        reviews.map((review) => {
-          return review.id === updatedReview.id ? updatedReview : review
-        })
-      )
-    }
-
-    function handleDeleteReview(deleteReview){
-      setMyReviews((reviews) =>
-        reviews.filter((review) => review.id !== deleteReview.id)
       )
     }
 

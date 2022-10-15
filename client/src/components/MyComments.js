@@ -12,10 +12,9 @@ function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
         active: false,
         comment_id:''
     })
-    const [errors, setErrors] = useState([])
 
-    // console.log(myComments)
-    console.log(commentData)
+    console.log(myComments)
+    // console.log(commentData)
     // console.log(startEditing)
     
     function handleEdit(comment){
@@ -69,13 +68,7 @@ function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
     function onClickDeleteComment(comment) {
         fetch(`/comments/${comment.id}`, {
           method: "DELETE",
-        }).then((r) => {
-            if (r.ok) {
-            onDeleteComment(myComments);
-            } else {
-                r.json().then(json => setErrors(json.error))
-            }
-        });
+        }).then(() => (onDeleteComment(comment)));
       }
 
     return(
@@ -83,7 +76,6 @@ function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
             <div className="line"></div>
             <h2>My Comments</h2>
             <div className="comments-wrapper">
-            {errors?<div style={{color:'red'}}>{errors}</div>:null}
                 {myComments.map((comment) => (
                     <div className="card text-bg-light mb-3 comment-card" key={comment.id}>
                         <div className="card-header">{comment.review.title}</div>
@@ -109,23 +101,6 @@ function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
                                 
                             }
                         </div>
-                        {/* <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h1 className="modal-title fs-5" id="exampleModalLabel">Delete this comment?</h1>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div className="modal-body">
-                                        {comment.body}
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button   button type="button" className="btn btn-danger" onClick={() => onClickDeleteComment(comment)}>Delete</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                 ))}
             </div>

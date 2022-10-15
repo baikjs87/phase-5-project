@@ -1,23 +1,20 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { useHistory } from 'react-router-dom'
 import './styles/post.css'
 
 function Post({ addReview, user }) {
-    const [formData, setFormData] = useState({
-        title:'',
-        brand_id:'',
-        category_id:'',
-        price:'',
-        rating:'',
-        recommend:'',
-        description:'',
-        user_id: user.id,
-        brand:'',
-        category:''
-      })
+    const [formData, setFormData] = useState({ user_id: user.id })
     const [errors, setErrors] = useState([])
-    // const [newCategory, setNewCategory] = useState([])
+    const [imageFile, setImageFile] = useState({
+        file: '',
+        fileName: ''
+    })
     const history = useHistory();
+    const LOCAL_RAILS_HOST = "http://localhost:3000/images";
+    const REMOTE_HOST = LOCAL_RAILS_HOST;
+    const [showImage, setShowImage] = useState("");
+    const [file, setFile] = useState();
+
     
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -34,50 +31,79 @@ function Post({ addReview, user }) {
         setFormData({ ...formData, 'category': category })
     }
 
-    console.log('formData: ', formData)
+    // console.log('formData: ', formData)
     
     function onSubmit(e){
         e.preventDefault()
+        let newData = {formData}
 
-        fetch('/reviews',{
+        fetch('/brands',{
             method:'POST',
             headers: {'Content-Type': 'application/json'},
-            body:JSON.stringify(formData)
-        })
-        .then(r => {
-            if(r.ok){
-                r.json().then((newReview) => {
-                    fetch('/brands',{
-                        method:'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body:JSON.stringify({'brand': formData.brand}) 
-                    })
-                    .then(r => {
-                        if(r.ok){
-                            r.json().then((newBrand) => {
-                                setFormData({ ...formData, 'brand_id': newBrand.id })
-                                fetch('/categories',{
-                                    method:'POST',
-                                    headers: {'Content-Type': 'application/json'},
-                                    body:JSON.stringify({'category': formData.category})
+            body:JSON.stringify({'brand': formData.brand}) 
+        }).then(r => {
+            r.json().then((newBrand) => {
+                setFormData({ ...formData, 'brand_id': newBrand.id })
+                newData = { ...formData, 'brand_id': newBrand.id }
+
+                fetch('/categories',{
+                    method:'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body:JSON.stringify({'category': formData.category})
+                }).then(r => {
+                    r.json().then((newCategory) => {
+                        setFormData({ ...formData, 'category_id': newCategory.id })
+                        newData = { ...newData, 'category_id': newCategory.id }
+
+                        fetch('/reviews',{
+                            method:'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body:JSON.stringify(newData),
+                        }).then(r => {
+                            if(r.ok){
+                                r.json().then((newReview) => {
+                                    addReview(newReview)
+                                    history.push('/')
                                 })
-                                .then(r => {
-                                    r.json().then((newCategory) => {
-                                        const newData = { ...formData, 'category_id': newCategory.id, 'brand_id': newBrand.id }
-                                        setFormData({ ...formData, 'category_id': newCategory.id, 'brand_id': newBrand.id })
-                                        addReview(newData)
-                                        history.push('/')
-                                    })
-                                })
-                            })
-                        } else {
-                            r.json().then(data => setErrors(Object.entries(data.errors).map(e => `${e[0]} ${e[1]}`)))
-                        }
+                            } else {
+                                r.json().then((err) => setErrors(err.errors));
+                            }
+                        })
                     })
                 })
-            } else {
-                r.json().then(data => setErrors(Object.entries(data.errors).map(e => `${e[0]} ${e[1]}`)))
-            }
+            })
+        })
+    }
+
+    // useEffect(() => {
+    //     if(imageFile.file){
+    //         let file = imageFile.file
+    //         // file = URL.createObjectURL(file)
+    //         setShowImage(file);
+    //         console.log(file)
+    //     }
+    // },[imageFile.file])
+    
+    const onClickUpload = async(e) => {
+        e.preventDefault()
+        const config = {
+            method: "POST",
+            body: imageFile,
+        };
+
+        console.log('upload ',imageFile)
+
+        let response = await fetch(REMOTE_HOST, config)
+        response = await response.json()
+        console.log('resp ',response)
+    }
+
+    const onChangeFile = (e) => {
+        const file = e.target.files
+        setFile(file)
+        setImageFile({
+            file,
+            'fileName': e.target.files
         })
     }
 
@@ -85,7 +111,7 @@ function Post({ addReview, user }) {
         <div className="post_wrapper">
             <h3 className="pagename">Post Reviews</h3>
             {errors?errors.map(e => <div style={{color:'red'}}>{e}</div>):null}
-            <form onSubmit={onSubmit}>
+            <form onSubmit={(e) => onSubmit(e)}>
                 <label className="form-label">Title </label>
                 <input type='text' name='title' value={formData.title} onChange={handleChange} className="form-control" />
 
@@ -101,16 +127,17 @@ function Post({ addReview, user }) {
                     </div>
                 </div>
             
-                <div className="col-sm-4 label price-block">
+                <div className="col-sm-5 label price-block">
                     <label className="form-label">Price</label>
                     <input type='number' name='price' value={formData.price} onChange={handleChange} className="form-control" />
                 </div>
 
-                <label></label>
-                <div className="mb-3">
-                    <label for="formFileMultiple" className="form-label">Product Images</label>
-                    <input className="form-control form-control-sm" type="file" id="formFileMultiple" multiple />
-                </div>
+                <form className="input-group" onSubmit={onClickUpload}>
+                    <input type="file" className="form-control" id="inputGroupFile04" onChange={onChangeFile} />
+                    <button className="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04"  onClick={onClickUpload}>Upload</button>
+                </form>
+
+                <img width="300px" src={showImage} />
             
                 <label className="label ">Rating</label>
                 <div>

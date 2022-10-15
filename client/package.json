@@ -11,7 +11,11 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@mantine/core": "^5.2.0",
+    "@mantine/form": "^5.2.0",
+    "@mantine/hooks": "^5.2.0",
+    "@mantine/modals": "^5.2.0"
   },
   "scripts": {
     "start": "PORT=4000 react-scripts start",
