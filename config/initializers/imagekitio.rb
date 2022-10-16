@@ -2,7 +2,7 @@ ImageKitIo.configure do |config|
     if Rails.env.development?
       config.public_key = ENV['public_key']
       config.private_key = ENV['private_key']
-      config.url_endpoint = ENV['end_point'] # https://ik.imagekit.io/your_imagekit_id
+      config.url_endpoint = ENV['REACT_APP_END_POINT'] # https://ik.imagekit.io/your_imagekit_id
     end
     config.service = :carrierwave
     #config.service = :active_storage
