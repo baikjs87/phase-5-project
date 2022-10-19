@@ -1,3 +1,21 @@
+.row{
+    position: relative;
+    display: flex;
+}
+
+.col{
+    /* margin: 5px; */
+}
+
 .card{
-    margin-bottom: 20px;
+    max-width: 300px;
+    /* min-width: 200px; */
+}
+
+.card-img-top{
+    max-width: 300px;
+}
+
+.card-body{
+    text-decoration: none;
 }

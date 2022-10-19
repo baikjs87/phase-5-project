@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import './styles/details.css'
 
-function Details({ user, reviews, addNewComment }) {
+function Details({ user, reviews, addNewComment, updatedComment }) {
     const location = useLocation()
     const review = location.state.review
     const review_id = location.state.review.id
@@ -13,9 +13,12 @@ function Details({ user, reviews, addNewComment }) {
     })
     const [thisReview, setThisReview] = useState([])
     const [errors, setErrors] = useState([]);
-
+console.log(updatedComment)
     useEffect(() => {
         reviews.map((review) => review.id === review_id ? setThisReview(review.comments) : null)
+        // if(updatedComment !== {}) {
+        //     setThisReview([...thisReview, updatedComment])
+        // }
     },[reviews, review_id])
 
     const handleChange = (e) => {
@@ -59,7 +62,8 @@ function Details({ user, reviews, addNewComment }) {
                 <div id="review-wrapper">
                     <div>
                         <h5>Review</h5>
-                        <p>{review.description}</p>
+                        <img className="mb-3 review_image" src={review.image_url} />
+                        <p className="review_desc">{review.description}</p>
                     </div>
                 </div>
                 <div className="line"></div>

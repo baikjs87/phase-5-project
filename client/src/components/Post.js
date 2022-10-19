@@ -10,11 +10,10 @@ function Post({ addReview, user }) {
         fileName: ''
     })
     const [showImage, setShowImage] = useState("");
+    const [showImageError, setImageError] = useState("hidden");
     const LOCAL_RAILS_HOST = "http://localhost:3000/images";
     const REMOTE_HOST = LOCAL_RAILS_HOST;
-    // const endPoint = process.env.REACT_APP_END_POINT
-    // console.log(endPoint) 
-    const navigate = useHistory()
+    const redirect = useHistory()
     
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -34,45 +33,49 @@ function Post({ addReview, user }) {
     function onSubmit(e){
         e.preventDefault()
         let newData = {formData}
- 
-        fetch('/brands',{
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body:JSON.stringify({'brand': formData.brand})
-        }).then(r => {
-            r.json().then((newBrand) => {
-                setFormData({ ...formData, 'brand_id': newBrand.id })
-                newData = { ...formData, 'brand_id': newBrand.id }
- 
-                fetch('/categories',{
-                    method:'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body:JSON.stringify({'category': formData.category})
-                }).then(r => {
-                    r.json().then((newCategory) => {
-                        setFormData({ ...formData, 'category_id': newCategory.id })
-                        newData = { ...newData, 'category_id': newCategory.id }
- 
-                        fetch('/reviews',{
-                            method:'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body:JSON.stringify(newData),
-                        }).then(r => {
-                            if(r.ok){
-                                r.json().then((newReview) => {
-                                    addReview(newReview)
-                                    navigate('/')
-                                })
-                            } else {
-                                r.json().then((err) => setErrors(err.errors));
-                            }
+        
+        if(formData.image_url){
+            fetch('/brands',{
+                method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body:JSON.stringify({'brand': formData.brand})
+            }).then(r => {
+                r.json().then((newBrand) => {
+                    setFormData({ ...formData, 'brand_id': newBrand.id })
+                    newData = { ...formData, 'brand_id': newBrand.id }
+     
+                    fetch('/categories',{
+                        method:'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body:JSON.stringify({'category': formData.category})
+                    }).then(r => {
+                        r.json().then((newCategory) => {
+                            setFormData({ ...formData, 'category_id': newCategory.id })
+                            newData = { ...newData, 'category_id': newCategory.id }
+     
+                            fetch('/reviews',{
+                                method:'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body:JSON.stringify(newData),
+                            }).then(r => {
+                                if(r.ok){
+                                    r.json().then((newReview) => {
+                                        addReview(newReview)
+                                        redirect.push('/')
+                                    })
+                                } else {
+                                    r.json().then((err) => setErrors(err.errors));
+                                }
+                            })
                         })
                     })
                 })
             })
-        })
+        } else {
+            setImageError('')
+        }
     }
- 
+
     useEffect(() => {
         if(imageFile.file){
             let file = imageFile.file
@@ -81,19 +84,27 @@ function Post({ addReview, user }) {
             console.log(file)
         }
     },[imageFile.file])
-   
+
     const onClickUpload = async(e) => {
         e.preventDefault()
-        console.log('imageFile ', imageFile)
+
+        const newData = new FormData()
+        newData.append('file', imageFile.file)
+        newData.append('fileName', imageFile.file.name)
+        console.log('imageFile ', imageFile) 
 
         const config = {
             method: "POST",
-            body: imageFile
+            headers: {"Access-Control-Allow-Origin":"*"},
+            credentials: 'include',
+            body: newData
         };
 
-        let response = fetch(REMOTE_HOST, config)
-        response = response.json()
+        let response = await fetch(REMOTE_HOST, config)
+        response = await response.json()
         console.log('resp ',response)
+        setFormData({ ...formData, 'image_url': response.url})
+        setImageError('hidden')
     }
  
     const onChangeFile = (e) => {
@@ -101,7 +112,7 @@ function Post({ addReview, user }) {
         const fileName = file.name
         setImageFile({file, fileName})
     }
- 
+    
     return(
         <div className="post_wrapper">
             <h3 className="pagename">Post Reviews</h3>
@@ -176,8 +187,13 @@ function Post({ addReview, user }) {
  
                 <label className="label ">Description</label>
                 <textarea type='text' rows='0' cols='80' name='description' value={formData.description} onChange={handleChange} className="form-control" />
-           
+                
+                <div className="alert alert-warning" hidden={showImageError} id='warning' role="alert">
+                    ⚠️ Please upload an image!
+                </div>
+                
                 <input type='submit' value='Post Review' className="submit_button" />
+                    
             </form>
             {errors?errors.map(e => <h2 style={{color:'red'}}>{e.toUpperCase()}</h2>):null}
         </div>

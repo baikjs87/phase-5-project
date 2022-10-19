@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import MyReviews from './MyReviews';
 import MyComments from './MyComments';
 
-function Account({ user, setUser }) {
+function Account({ user, setUser, updateReview, updateComment }) {
     const [reviewsShown, setReviewsShown] = useState(false);
     const [commentsShown, setCommentsShown] = useState(false);
     const [myComments, setMyComments] = useState([])
@@ -69,6 +69,7 @@ function Account({ user, setUser }) {
           return review.id === updatedReview.id ? updatedReview : review
         })
       )
+      updateReview(updatedReview)
     }
 
     function handleDeleteReview(deleteReview){
@@ -88,6 +89,7 @@ function Account({ user, setUser }) {
           return comment.id === updatedComment.id ? updatedComment : comment
         })
       ) 
+      updateComment(updatedComment)
     }
     
     function handleDeleteComment(deletedComment){

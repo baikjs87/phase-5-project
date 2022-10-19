@@ -15,6 +15,7 @@ function App() {
   const [reviews, setReviews] = useState([])
   const [errors, setErrors] = useState('')
   const [loading, setLoading] = useState(true)
+  const [updatedComment, setUpdatedComment] = useState({})
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000)
@@ -43,11 +44,19 @@ function App() {
 
   function addReview(review){
     console.log(review)
-    setReviews((reviews) => [...reviews, review])
+    setReviews([...reviews, review])
   }
 
   function handleNewComment(newComment){
     reviews.map((review) => review.id === newComment.review.id ? review.comments.push(newComment) : null)
+  }
+
+  function updateReview(updatedReview){
+      reviews.map((review) => review.id === updatedReview.id ? updatedReview : review)
+  }
+
+  function updateComment(updatedComment){
+    setUpdatedComment(updatedComment)
   }
 
   return (
@@ -55,40 +64,52 @@ function App() {
     {loading === false ? (
       <div className="app_wrapper">
         <NavBar user={user} setUser={setUser} />
-        <main>
-        {errors?<div style={{color:'red'}}>{errors}</div>:null}
-          {user ? (
-            <Switch>
-              <Route path="/post">
-                <Post user={user} addReview={addReview} />
-              </Route>
-              <Route path="/favorites">
-                <Favorites user={user}/>
-              </Route>
-              <Route path="/details/:id">
-                <Details user={user} reviews={reviews} addNewComment={handleNewComment} />
-              </Route>
-              <Route path="/account">
-                <Account user={user} setUser={setUser} />
-              </Route>
-              <Route path="/">
-                <Home user={user} reviews={reviews} />
-              </Route>
-            </Switch>
-          ) : (
-            <Switch>
-              <Route path="/signup">
-                <SignUp setUser={setUser} />
-              </Route>
-              <Route path="/login">
-                <Login setUser={setUser} />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          )}
-        </main>
+        <div className="contents_wrapper">
+          <main>
+          {errors?<div style={{color:'red'}}>{errors}</div>:null}
+            {user ? (
+              <Switch>
+                <Route path="/post">
+                  <Post user={user} addReview={addReview} />
+                </Route>
+                <Route path="/favorites">
+                  <Favorites user={user}/>
+                </Route>
+                <Route path="/details/:id">
+                  <Details 
+                  user={user} 
+                  reviews={reviews} 
+                  addNewComment={handleNewComment} 
+                  updatedComment={updatedComment}
+                  />
+                </Route>
+                <Route path="/account">
+                  <Account 
+                  user={user} 
+                  setUser={setUser} 
+                  updateReview={updateReview}
+                  updateComment={updateComment}
+                   />
+                </Route>
+                <Route path="/">
+                  <Home user={user} reviews={reviews} />
+                </Route>
+              </Switch>
+            ) : (
+              <Switch>
+                <Route path="/signup">
+                  <SignUp setUser={setUser} />
+                </Route>
+                <Route path="/login">
+                  <Login setUser={setUser} />
+                </Route>
+                <Route path="/">
+                  <Home />
+                </Route>
+              </Switch>
+            )}
+          </main>
+        </div>
       </div>
       ) : (
         <div className="d-flex justify-content-center">

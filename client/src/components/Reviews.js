@@ -4,13 +4,15 @@ import './styles/reviews.css'
 function Reviews({ reviews, user }) {
 
     return(
-        <div>
+        <div className="row row-cols-sm-4 row-cols-md-4 g-4" data-masonry='{"percentPosition": true }'>
             {reviews.map((review) => (
-                <div className="card" key={review.id}>
-                    {/* <img src="..." class="card-img-top" alt="..."> */}
-                    <div className="card-body">
+                <div className="col">
+                    <div className="card" key={review.id}>
                         <Link to={{pathname:`/details/${review.id}`, state:{review, user}}}>
-                            <p className="card-text">{review.title}</p>
+                            <img src={review.image_url} className="card-img-top" />
+                            <div className="card-body">
+                                <h5 className="card-title">{review.title}</h5>
+                            </div>
                         </Link>
                     </div>
                 </div>
