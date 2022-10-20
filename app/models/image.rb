@@ -24,4 +24,6 @@ class Image < ApplicationRecord
         {url: @url, file_name: @file_name, ik_id: @ik_id}
     end
 
+    validates :file_name, presence: true
+    # validates :fileName, presence: true
 end

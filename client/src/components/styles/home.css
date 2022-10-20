@@ -1,6 +1,6 @@
 .welcome{
     text-align: right;
-    margin-bottom: 30px;
+    margin: 0 3vw;
 }
 
 .home-wrapper{
@@ -17,6 +17,6 @@
 }
 
 .main-wrapper{
-    margin: 30px 4em 200px;
+    margin: 30px 1em 200px;
     position: relative;
 }

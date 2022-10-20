@@ -100,9 +100,9 @@ function Account({ user, setUser, updateReview, updateComment }) {
 
     return(
       <div className="account-wrapper">
-        <div class="">
-          <div class="sidebar">
-            <small class="text-muted pl-3">MY ACCOUNT</small>
+        <div className="menu-block">
+          <div className="sidebar">
+            <small className="text-muted pl-3">MY ACCOUNT</small>
             <ul className="list">
               <li onClick={handleClickReviews} className="links">My Reviews</li>
               <li onClick={handleClickComments} className="links">My Comments</li>

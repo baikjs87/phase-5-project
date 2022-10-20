@@ -5,6 +5,8 @@ import './styles/post.css'
 function Post({ addReview, user }) {
     const [formData, setFormData] = useState({ user_id: user.id })
     const [errors, setErrors] = useState([])
+    const [imageErrors, setImageErrors] = useState('')
+    const [uploadSuccess, setUploadSuccess] = useState(false)
     const [imageFile, setImageFile] = useState({
         file: '',
         fileName: ''
@@ -52,7 +54,8 @@ function Post({ addReview, user }) {
                         r.json().then((newCategory) => {
                             setFormData({ ...formData, 'category_id': newCategory.id })
                             newData = { ...newData, 'category_id': newCategory.id }
-     
+                            console.log(newData)
+                            
                             fetch('/reviews',{
                                 method:'POST',
                                 headers: {'Content-Type': 'application/json'},
@@ -60,6 +63,7 @@ function Post({ addReview, user }) {
                             }).then(r => {
                                 if(r.ok){
                                     r.json().then((newReview) => {
+                                        console.log(newReview)
                                         addReview(newReview)
                                         redirect.push('/')
                                     })
@@ -73,6 +77,9 @@ function Post({ addReview, user }) {
             })
         } else {
             setImageError('')
+            setTimeout(() => {
+                setImageError('hidden')
+              }, 5000);
         }
     }
 
@@ -103,8 +110,16 @@ function Post({ addReview, user }) {
         let response = await fetch(REMOTE_HOST, config)
         response = await response.json()
         console.log('resp ',response)
-        setFormData({ ...formData, 'image_url': response.url})
-        setImageError('hidden')
+        if(response.error){
+            setImageErrors(response.error)
+        } else if (response.id){
+            setFormData({ ...formData, 'image_url': response.url})
+            setImageError('hidden')
+            setUploadSuccess(true)
+            setTimeout(() => {
+                setUploadSuccess(false)
+              }, 3000);
+        }
     }
  
     const onChangeFile = (e) => {
@@ -119,17 +134,17 @@ function Post({ addReview, user }) {
             {errors?errors.map(e => <div style={{color:'red'}}>{e}</div>):null}
             <form onSubmit={(e) => onSubmit(e)}>
                 <label className="form-label">Title </label>
-                <input type='text' name='title' value={formData.title} onChange={handleChange} className="form-control" />
+                <input type='text' name='title' value={formData.title} onChange={handleChange} className="form-control" required/>
  
                 <div className="brand-category">
                     <div className="col-sm-5 label">
                         <label className="form-label"> Brand</label>
-                        <input type='text' name='brand' onChange={handleChangeBrand} className="form-control" />
+                        <input type='text' name='brand' onChange={handleChangeBrand} className="form-control" required/>
                     </div>
  
                     <div className="col-sm-5 label category">
                         <label className="form-label"> Category</label>
-                        <input type='text' name='category' onChange={handleChangeCategory} className="form-control" />
+                        <input type='text' name='category' onChange={handleChangeCategory} className="form-control" required/>
                     </div>
                 </div>
            
@@ -142,6 +157,8 @@ function Post({ addReview, user }) {
                     <input type="file" className="form-control" id="inputGroupFile04" onChange={onChangeFile} />
                     <button className="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04"  onClick={onClickUpload}>Upload</button>
                 </form>
+                {imageErrors? <div style={{color:'red'}}>{imageErrors}</div> : null}
+                {uploadSuccess? <div className="alert alert-success" role="alert">An image has been successfully uploaded</div> : null}
 
                 <div>
                     <img width="500px" src={showImage} alt={imageFile.fileName} />
@@ -186,7 +203,7 @@ function Post({ addReview, user }) {
                 </div>        
  
                 <label className="label ">Description</label>
-                <textarea type='text' rows='0' cols='80' name='description' value={formData.description} onChange={handleChange} className="form-control" />
+                <textarea type='text' rows='0' cols='80' name='description' value={formData.description} onChange={handleChange} className="form-control" required/>
                 
                 <div className="alert alert-warning" hidden={showImageError} id='warning' role="alert">
                     ⚠️ Please upload an image!

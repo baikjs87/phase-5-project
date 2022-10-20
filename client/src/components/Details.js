@@ -50,7 +50,7 @@ console.log(updatedComment)
     
     return(
         <div className="page-wrapper" id="wrapper">
-            <div className="card-body">
+            <div className="card-body review-wrapper">
                 <h1>{review.title}</h1>
                 <div>
                     <h5>Rating: {review.rating}</h5>

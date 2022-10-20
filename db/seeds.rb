@@ -85,7 +85,7 @@ review6 = Review.create({
     'recommend': 'yes',
     'description': 'Super soft. feels like sleeping on clouds. a little shedding but otherwise really impressive and satisfied',
     'user_id': 1,
-    'image_url': ""
+    'image_url': "https://ik.imagekit.io/baikjs87/unhide-blanket_m4jnIx_y_.jpg"
 })
 
 puts "Seeding Comments..."
@@ -133,6 +133,26 @@ comment9 = Comment.create({
     'body': 'o.gi,duyjsr5thasertg',
     'user_id': 1,
     "review_id": 4
+})
+comment10 = Comment.create({
+    'body': '456y36y25g4g',
+    'user_id': 1,
+    "review_id": 5
+})
+comment11 = Comment.create({
+    'body': '7jhtn78 465hy e57y',
+    'user_id': 1,
+    "review_id": 6
+})
+comment12 = Comment.create({
+    'body': 'er sekfmnw qecqwijh e33',
+    'user_id': 2,
+    "review_id": 5
+})
+comment13 = Comment.create({
+    'body': ' c w49f2 qow 2f- frvn',
+    'user_id': 3,
+    "review_id": 6
 })
 
 puts "✅ Done seeding!"

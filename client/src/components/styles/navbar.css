@@ -2,13 +2,17 @@
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    display: flex;
     background-color: #dbdcdb;
-    padding: 30px 4em;
-    justify-content: space-between;
+    padding: 30px 1em;
     align-items: center;
     width: 100%;
     z-index: 1000;
+}
+
+.header-div{
+    margin: 0 3vw;
+    display: flex;
+    justify-content: space-between;
 }
 
 .title {

@@ -1,6 +1,6 @@
 .account-wrapper {
     position: relative;
-    /* display: flex; */
+    display: inline;
     /* margin-top: 20px; */
     /* justify-content: space-between; */
     align-items: right;
@@ -18,10 +18,10 @@ body{
 
 .sidebar{
 	position: fixed;
-	width: 200px;
+    width: 250px;
 	height: 100%;
 	background: #0d0d0ee0;
-    /* margin-top: 40px; */
+    padding-left: 30px;
 	padding-top: 40px;
 }
 .text-muted{
@@ -50,11 +50,14 @@ body{
 }
 
 .account-body{
-    padding: 40px 4em 0 250px;
+    margin-left: 1px;
+    padding: 40px 4em 0 300px;
+    /* margin-left: 20px; */
 }
 
 .account-subbody{
-    padding: 0 4em 10em 250px;
+    margin-left: 1px;
+    padding: 0 4em 10em 300px;
 }
 
 .logout {
