@@ -32,15 +32,6 @@ ActiveRecord::Schema.define(version: 2022_10_15_013359) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "favorites", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "review_id"
-    t.integer "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "images", force: :cascade do |t|
     t.string "url"
     t.string "ik_id"
