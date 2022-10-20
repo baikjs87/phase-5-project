@@ -4,13 +4,6 @@ ImageKitIo.configure do |config|
       config.private_key = ENV['private_key']
       config.url_endpoint = ENV['REACT_APP_END_POINT'] # https://ik.imagekit.io/your_imagekit_id
     end
-
-    if Rails.env.production?
-      config.public_key = process.env.public_key
-      config.private_key = process.env.private_key
-      config.url_endpoint = process.env.REACT_APP_END_POINT
-    end
-
     config.service = :carrierwave
     #config.service = :active_storage
     # config.constants.MISSING_PRIVATE_KEY = 'custom error message'
