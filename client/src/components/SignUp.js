@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'
 import './styles/signup.css'
 
 function SignUp({ setUser }) {
@@ -6,6 +7,7 @@ function SignUp({ setUser }) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState([])
+  const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -21,9 +23,12 @@ function SignUp({ setUser }) {
       }),
     }).then(res => {
       if(res.ok){
-          res.json().then((user) => setUser(user))
+          res.json().then((user) => {
+            setUser(user)
+            navigate('/')
+          })
       }else {
-          res.json().then(json => setErrors(Object.entries(json.errors)))
+          res.json().then(json => setErrors(json.errors))
       }
   })
  

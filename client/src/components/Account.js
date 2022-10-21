@@ -2,6 +2,7 @@ import './styles/account.css'
 import { useEffect, useState } from 'react';
 import MyReviews from './MyReviews';
 import MyComments from './MyComments';
+import {useNavigate} from 'react-router-dom'
 
 function Account({ user, setUser, updateReview, updateComment }) {
     const [reviewsShown, setReviewsShown] = useState(false);
@@ -9,6 +10,7 @@ function Account({ user, setUser, updateReview, updateComment }) {
     const [myComments, setMyComments] = useState([])
     const [myReviews, setMyReviews] = useState([])
     const [errors, setErrors] = useState([])
+    const navigate = useNavigate()
 
     // console.log("comments:", myComments)
     // console.log("reviews: ", myReviews)
@@ -52,6 +54,7 @@ function Account({ user, setUser, updateReview, updateComment }) {
         fetch("/logout", { method: "DELETE" }).then((r) => {
           if (r.ok) {
             setUser(null);
+            navigate('/')
           } else {
             r.json().then(json => setErrors(json.error))
           }
