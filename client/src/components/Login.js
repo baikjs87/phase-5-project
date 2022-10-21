@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './styles/login.css'
 
 function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([])
-  const history = useNavigation()
+  const history = useNavigate()
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/login", {
