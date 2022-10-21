@@ -33,11 +33,10 @@ function SignUp({ setUser }) {
   })
  
 }
-
   return (
     <div className="wrapper">
         <h1 className="heading">Sign Up</h1>
-        {errors?<div style={{color:'red'}}>{errors}</div>:null}
+        {errors?<div><div style={{color:'red'}}>{errors[0]}</div><div style={{color:'red'}}>{errors[1]}</div></div>:null}
       <form onSubmit={handleSubmit}>
         <div  className="form">
           <div className="input">
