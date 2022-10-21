@@ -36,9 +36,9 @@ function SignUp({ setUser }) {
 
   return (
     <div className="wrapper">
-      <form onSubmit={handleSubmit}>
         <h1 className="heading">Sign Up</h1>
-        {errors?errors.map(e => <div style={{color:'red'}}>{e[0]+': ' + e[1]}</div>):null}
+        {errors?<div style={{color:'red'}}>{errors}</div>:null}
+      <form onSubmit={handleSubmit}>
         <div  className="form">
           <div className="input">
             <label htmlFor="username" className="label">Username</label>
