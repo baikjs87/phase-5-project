@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./styles/navbar.css"
+import logo from "./assets/re3.png"
 
 function NavBar({ user }) {
 
@@ -8,7 +9,8 @@ function NavBar({ user }) {
     <header className="header">
       <div className="header-div">
         <div>
-          <Link to="/" className="title">Should I Get It?</Link>
+          <Link to="/" className="title"><img src={logo}/></Link>
+          
         </div>
         <div className="nav_buttons">
           {user ? (
