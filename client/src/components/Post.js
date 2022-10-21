@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './styles/post.css'
  
 function Post({ addReview, user }) {
@@ -15,7 +15,7 @@ function Post({ addReview, user }) {
     const [showImageError, setImageError] = useState("hidden");
     const LOCAL_RAILS_HOST = "http://localhost:3000/images";
     const REMOTE_HOST = LOCAL_RAILS_HOST;
-    const redirect = useHistory()
+    const redirect = useNavigate()
     
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -65,7 +65,7 @@ function Post({ addReview, user }) {
                                     r.json().then((newReview) => {
                                         console.log(newReview)
                                         addReview(newReview)
-                                        redirect.push('/')
+                                        redirect('/')
                                     })
                                 } else {
                                     r.json().then((err) => setErrors(err.errors));
@@ -153,10 +153,10 @@ function Post({ addReview, user }) {
                     <input type='number' name='price' value={formData.price} onChange={handleChange} className="form-control" />
                 </div>
  
-                <form className="input-group" onSubmit={onClickUpload}>
+                <div className="input-group" onSubmit={onClickUpload}>
                     <input type="file" className="form-control" id="inputGroupFile04" onChange={onChangeFile} />
                     <button className="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04"  onClick={onClickUpload}>Upload</button>
-                </form>
+                </div>
                 {imageErrors? <div style={{color:'red'}}>{imageErrors}</div> : null}
                 {uploadSuccess? <div className="alert alert-success" role="alert">An image has been successfully uploaded</div> : null}
 
@@ -168,36 +168,36 @@ function Post({ addReview, user }) {
                 <div>
                     <span className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="rating" id="inlineRadio1" value="1" onChange={handleChange} />
-                        <label className="form-check-label" for="inlineRadio1">1</label>
+                        <label className="form-check-label" htmlFor="inlineRadio1">1</label>
                     </span>
                     <span className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="rating" id="inlineRadio2" value="2" onChange={handleChange} />
-                        <label className="form-check-label" for="inlineRadio2">2</label>
+                        <label className="form-check-label" htmlFor="inlineRadio2">2</label>
                     </span>
                     <span className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="rating" id="inlineRadio3" value="3" onChange={handleChange} />
-                        <label className="form-check-label" for="inlineRadio3">3</label>
+                        <label className="form-check-label" htmlFor="inlineRadio3">3</label>
                     </span>
                     <span className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="rating" id="inlineRadio4" value="4" onChange={handleChange} />
-                        <label className="form-check-label" for="inlineRadio4">4</label>
+                        <label className="form-check-label" htmlFor="inlineRadio4">4</label>
                     </span>
                     <span className="form-check form-check-inline">
                         <input className="form-check-input" type="radio" name="rating" id="inlineRadio5" value="5" onChange={handleChange} />
-                        <label className="form-check-label" for="inlineRadio5">5</label>
+                        <label className="form-check-label" htmlFor="inlineRadio5">5</label>
                     </span>            
                 </div>
  
                 <label className="label ">Recommend?</label>
                 <div className="form-check">
                     <input className="form-check-input" type="radio" name="recommend" id="flexRadioDefault1" value="yes" onChange={handleChange} />
-                    <label className="form-check-label" for="flexRadioDefault1">
+                    <label className="form-check-label" htmlFor="flexRadioDefault1">
                         Yes
                     </label>
                 </div>
                 <div className="form-check">
                     <input className="form-check-input" type="radio" name="recommend" id="flexRadioDefault2" value="no" onChange={handleChange} />
-                    <label className="form-check-label" for="flexRadioDefault2">
+                    <label className="form-check-label" htmlFor="flexRadioDefault2">
                         No
                     </label>
                 </div>        

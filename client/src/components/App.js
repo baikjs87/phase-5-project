@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import NavBar from "./NavBar";
@@ -68,45 +68,33 @@ function App() {
           <main>
           {errors?<div style={{color:'red'}}>{errors}</div>:null}
             {user ? (
-              <Switch>
-                <Route path="/post">
-                  <Post user={user} addReview={addReview} />
-                </Route>
-                <Route path="/favorites">
-                  <Favorites user={user}/>
-                </Route>
-                <Route path="/details/:id">
+              <Routes>
+                <Route path="/post" element={<Post user={user} addReview={addReview} />} />
+                <Route path="/favorites" element={<Favorites user={user}/>} />
+                <Route path="/details/:id" element={
                   <Details 
                   user={user} 
                   reviews={reviews} 
                   addNewComment={handleNewComment} 
                   updatedComment={updatedComment}
-                  />
-                </Route>
-                <Route path="/account">
+                  />} 
+                />
+                <Route path="/account" element={
                   <Account 
                   user={user} 
                   setUser={setUser} 
                   updateReview={updateReview}
                   updateComment={updateComment}
                    />
-                </Route>
-                <Route path="/">
-                  <Home user={user} reviews={reviews} />
-                </Route>
-              </Switch>
+                } />
+                <Route path="/" element={<Home user={user} reviews={reviews} />} />
+              </Routes>
             ) : (
-              <Switch>
-                <Route path="/signup">
-                  <SignUp setUser={setUser} />
-                </Route>
-                <Route path="/login">
-                  <Login setUser={setUser} />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
+              <Routes>
+                <Route path="/signup" element={<SignUp setUser={setUser} />} />
+                <Route path="/login" element={<Login setUser={setUser} />} />
+                <Route path="/" element={<Home />} />
+              </Routes>
             )}
           </main>
         </div>
