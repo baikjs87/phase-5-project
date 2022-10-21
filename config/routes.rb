@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  # get '/', to: proc { [200, {}, ['']] }
-  root :to => 'reviews#index'
   post "/signup",  to: "users#create"
   get '/me', to: 'users#show'
   post '/login', to: 'sessions#create'
