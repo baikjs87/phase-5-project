@@ -9,7 +9,7 @@ function NavBar({ user }) {
     <header className="header">
       <div className="header-div">
         <div>
-          <Link to="/" className="title"><img src={logo}/></Link>
+          <Link to="/" className="title"><img src={logo} alt="reviewed"/></Link>
           
         </div>
         <div className="nav_buttons">
