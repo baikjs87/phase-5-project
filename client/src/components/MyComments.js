@@ -12,10 +12,6 @@ function MyComments({ user, myComments, onUpdateComment, onDeleteComment }) {
         active: false,
         comment_id:''
     })
-
-    console.log(myComments)
-    // console.log(commentData)
-    // console.log(startEditing)
     
     function handleEdit(comment){
         setCommentData({ ...commentData, 'review_id': comment.review.id , 'id': comment.id})

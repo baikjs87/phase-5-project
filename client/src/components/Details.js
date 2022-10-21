@@ -13,7 +13,7 @@ function Details({ user, reviews, addNewComment, updatedComment }) {
     })
     const [thisReview, setThisReview] = useState([])
     const [errors, setErrors] = useState([]);
-console.log(updatedComment)
+
     useEffect(() => {
         reviews.map((review) => review.id === review_id ? setThisReview(review.comments) : null)
         // if(updatedComment !== {}) {
@@ -62,7 +62,7 @@ console.log(updatedComment)
                 <div id="review-wrapper">
                     <div>
                         <h5>Review</h5>
-                        <img className="mb-3 review_image" src={review.image_url} />
+                        <img className="mb-3 review_image" src={review.image_url} alt={review.fileName} />
                         <p className="review_desc">{review.description}</p>
                     </div>
                 </div>
