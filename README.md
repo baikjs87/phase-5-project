@@ -12,9 +12,11 @@ Users can write their own reviews on an item of their choice. An image of the pr
 ## Account
 Users can logout or view their own reviews and comments. They can edit or delete their reviews/comments here also.
 
----------------------------
-To start the back end, run
-$ rails s
+## To start the back end, run
+    $ rails s
 
-To start the front end, run
-$ npm start --prefix client
+## To start the front end, run
+    $ npm start --prefix client
+
+## Video
+https://www.loom.com/share/9d9f9f8c332f4b28b0ccdec742711562
