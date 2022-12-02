@@ -1,5 +1,5 @@
 {
-    "name": "json-server-deploy",
+    "name": "REVIEWED",
     "version": "1.0.0",
     "description": "Simple json database to deploy to the host of your choice",
     "main": "server.js",
